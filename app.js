@@ -1,9 +1,11 @@
+const age = document.getElementById("age");
 document.getElementById("blow").addEventListener("click", function(e) {
     e.preventDefault();
 
     document.querySelectorAll(".fire").forEach(function(el) {
         el.style.display = "none";
     });
+    age.textContent = "18";
     confetti({
         particleCount: 800,
         spread: 60,
