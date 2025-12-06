@@ -7,7 +7,7 @@ body {
  margin: 0;
  padding: 0;
  height: 100vh;
- background-color: #000;
+ background-color: #710006;
 }
 
 .body {
@@ -52,7 +52,7 @@ h2 {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  transform-origin: left; /* Flip starts from left edge */
+  transform-origin: left;
   transition: transform 0.8s;
   z-index: 5;
 }
@@ -69,7 +69,7 @@ h2 {
 
 .card-back {
   background: white;
-  transform: rotateY(180deg); /* Just flip the container */
+  transform: rotateY(180deg);
   display: flex;
   justify-content: center;
   align-items: center;
