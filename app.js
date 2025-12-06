@@ -38,5 +38,6 @@ window.addEventListener("load", () => {
     let audio = document.getElementById("bgmusic");
     audio.muted = false;
     audio.play().catch(()=>{}); 
-  }, 10);
+  }, 100);
+
 });
