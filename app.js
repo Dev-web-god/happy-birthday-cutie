@@ -33,11 +33,12 @@ function openCard() {
     document.querySelector(".candle").style.display = "none";
     document.querySelector(".text").style.display = "none";
 }
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    let audio = document.getElementById("bgmusic");
-    audio.muted = false;
-    audio.play().catch(()=>{}); 
-  }, 100);
 
+window.onload = () => {
+  const bg = document.getElementById("bgmusic");
+  bg.play();
+  setTimeout(() => {
+    bg.muted = false;
+  }, 150);
 });
+
