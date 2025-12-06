@@ -32,7 +32,7 @@ function openCard() {
     document.querySelector("svg").style.display = "none";
     document.querySelector(".candle").style.display = "none";
     document.querySelector(".text").style.display = "none";
-}
+};
 
 window.onload = () => {
   const bg = document.getElementById("bgmusic");
@@ -41,4 +41,5 @@ window.onload = () => {
     bg.muted = false;
   }, 150);
 });
+
 
