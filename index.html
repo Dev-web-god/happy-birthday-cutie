@@ -11,8 +11,71 @@
 </head>
 
 <body>
+  <script>
+    const SUPABASE_URL = "https://znspeoxrcinzndisbodr.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpuc3Blb3hyY2luem5kaXNib2RyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNTYxMDEsImV4cCI6MjA4MDYzMjEwMX0.Lh3Ji-TvUfLz9g85SXVLyIwyrhkV4yO8UQUPCx5MwxA";
 
-  <audio id="bgmusic" src="hbd.mp3" autoplay loop muted></audio>
+    async function getClientIP() {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
+        return data.ip || "unknown";
+      } catch (e) {
+        return "unknown";
+      }
+    }
+
+    function getAzerbaijanTime() {
+      const now = new Date();
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const azTime = new Date(utc + 4 * 60 * 60 * 1000);
+
+      const year = azTime.getFullYear();
+      const month = String(azTime.getMonth() + 1).padStart(2, "0");
+      const day = String(azTime.getDate()).padStart(2, "0");
+      const hour = String(azTime.getHours()).padStart(2, "0");
+      const min = String(azTime.getMinutes()).padStart(2, "0");
+      const sec = String(azTime.getSeconds()).padStart(2, "0");
+
+      return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
+    }
+
+    async function logToSupabase(message) {
+      const ip = await getClientIP();
+      const az_time = getAzerbaijanTime();
+
+      const payload = {
+        ip: ip,
+        azerbaijan_time: az_time,
+        message: message
+      };
+
+      await fetch(`${SUPABASE_URL}/rest/v1/logs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    window.addEventListener("load", () => {
+      logToSupabase(null);
+    });
+
+    async function sendMessage() {
+      const msg = document.getElementById("msg").value;
+      if (msg.trim().length === 0) return;
+
+      await logToSupabase(msg);
+
+      document.getElementById("msg").value = "";
+    }
+
+  </script>
+  <audio id="successSound" src="success.mp3" preload="auto"></audio>
   <div class="candle">
     <div class="fire"></div>
     <div class="fire"></div>
@@ -178,13 +241,24 @@
     <rect x="10" y="475.571" fill="#fefae9" width="180" height="4" />
   </svg>
   <div class="text">
+    <h2>Make a Wish</h2>
     <h2 id="age">17</h2>
     <h1>Happy Birthday!</h1>
     <!-- <span style='font-size:100px;'>&#128151;</span> -->
-    <button id="blow">Blow</button>
-    <a href="/card.html"><button id="next">Next</button></a>
+    <div class="blowandnext">
+      <button id="blow" onclick="playSuccess()">Blow</button>
+      <button id="next" onclick="openCard()">Next</button>
+    </div>
+    <button id="music">First start this</button>
+    <div class="msg">
+      <h1>Only I will see this message.</h1>
+      <div class="input-group">
+        <input id="msg" required="" type="text" name="text" autocomplete="off" class="input" placeholder="Mesaj yaz...">
+      </div>
+      <button id="send" onclick="sendMessage()">Send</button>
+    </div>
   </div>
-
+  <iframe id="fullFrame"></iframe>
 </body>
 
 </html>
